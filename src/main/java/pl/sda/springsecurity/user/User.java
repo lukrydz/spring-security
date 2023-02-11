@@ -30,7 +30,7 @@ public class User implements UserDetails {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private RoleType role;
+    private RoleType role = RoleType.ADMIN;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
