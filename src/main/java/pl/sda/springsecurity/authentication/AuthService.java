@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.sda.springsecurity.config.JwtService;
 import pl.sda.springsecurity.repo.UserRepository;
+import pl.sda.springsecurity.user.RoleType;
 import pl.sda.springsecurity.user.User;
 
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class AuthService {
                 .username(request.getUsername())
                 .password(request.getPassword())
                 .email(request.getEmail())
+                .role(RoleType.ADMIN)
                 .build();
         repository.save(user);
 
