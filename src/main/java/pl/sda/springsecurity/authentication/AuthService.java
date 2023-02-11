@@ -11,8 +11,6 @@ import pl.sda.springsecurity.repo.UserRepository;
 import pl.sda.springsecurity.user.RoleType;
 import pl.sda.springsecurity.user.User;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -25,7 +23,7 @@ public class AuthService {
     public String register(RegisterRequest request) {
         User user = User.builder()
                 .username(request.getUsername())
-                .password(request.getPassword())
+                .password(encoder.encode(request.getPassword()))
                 .email(request.getEmail())
                 .role(RoleType.ADMIN)
                 .build();
