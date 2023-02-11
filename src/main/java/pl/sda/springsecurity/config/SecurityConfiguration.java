@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.sda.springsecurity.user.RoleType;
+
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 @Configuration
@@ -29,6 +31,8 @@ public class SecurityConfiguration {
                 .permitAll()
                 .requestMatchers(toH2Console())
                 .permitAll()
+                .requestMatchers("/api/v1/dummy")
+                .hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
