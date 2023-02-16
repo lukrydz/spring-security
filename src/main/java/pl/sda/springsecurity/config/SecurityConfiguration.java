@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.sda.springsecurity.user.RoleType;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -26,10 +25,12 @@ public class SecurityConfiguration {
         return httpSecurity
                 .csrf()
                 .disable()
+                .headers().frameOptions().disable()
+                .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
-                .permitAll()
                 .requestMatchers(toH2Console())
+                .permitAll()
+                .requestMatchers("/api/v1/auth/**")
                 .permitAll()
                 .requestMatchers("/api/v1/dummy")
                 .hasAuthority("ADMIN")
