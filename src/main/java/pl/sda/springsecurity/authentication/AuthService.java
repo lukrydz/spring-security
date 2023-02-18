@@ -39,7 +39,6 @@ public class AuthService {
         );
         User user = repository.findByUsername(authRequest.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         return jwtService.generateToken(user);
-
+//token nadajemy za każdym requestem który jest secure ponieważ występuje bezstanowość (stateless)
     }
-
 }

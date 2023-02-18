@@ -19,11 +19,12 @@ import java.util.function.Function;
 public class JwtService {
 
     private String secret = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
+//można przenieść secret do app.properties
 
-
+    //metoda wyciąga z tokena konkretnego claima
     public <T> T extractClaim(String token, Function<Claims, T> claimsTFunction) {
-        final Claims claims = extractAll(token);
-        return claimsTFunction.apply(claims);
+        final Claims claims = extractAll(token);//wyciagamy claimsy
+        return claimsTFunction.apply(claims);//używamy funkcji na wyciągniętych claimsach(np. linijka 40(getSubject))
     }
 
     private Claims extractAll(String token) {
@@ -49,6 +50,7 @@ public class JwtService {
 
     public boolean isValidForUser(String token, UserDetails userDetails) {
         return extractUserName(token).equals(userDetails.getUsername()) && !isTokenExpired(token);
+        //pobieramy usera z bazy i porównujemy username z username z tokena
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -57,11 +59,29 @@ public class JwtService {
 
     private String generateToken(Map<String, Object> claimsMap, UserDetails userDetails) {
         return Jwts.builder()
-                .setClaims(claimsMap)
-                .setSubject(userDetails.getUsername())
-                .setExpiration(new Date(new Date().getTime() + 60 * 60 * 24 * 1000))
+                .setClaims(claimsMap)//możana dodać claimsy na zasadzie klucz wartość  w hashmapie
+                .setSubject(userDetails.getUsername())//na podstawie username identyfikujemy usera - tu ustawiamy username
+                .setExpiration(new Date(new Date().getTime() + 60 * 60 * 24 * 1000))//getTime w milisekundach
                 .setIssuedAt(new Date())
+                //zapisujemy jakiego kodowania używamy do kodowania podpisu(kodowanie i hashowanie)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+    // po rozkodawaiu tokena dostajemy 3 claimy
+
+    //eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJLcnp5c2llayIsImV4cCI6MTY3NjY1NjY5MCwiaWF0IjoxNjc2NTcwMjkwfQ.qNm90CNUnHGqFssmEusSmZiCnecGXJssAl1fYt60bCE
+//        header
+//    {
+//        "alg": "HS256"
+//    }
+
+//       payload
+//    {
+//        "sub": "Krzysiek",
+//            "exp": 1676656690,
+//            "iat": 1676570290
+//    }
+
+
+    //signature - secret kodowany w base64
 }

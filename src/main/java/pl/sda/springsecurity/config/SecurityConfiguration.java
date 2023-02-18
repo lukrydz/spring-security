@@ -37,9 +37,10 @@ public class SecurityConfiguration {
                 .authenticated()
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)//nie tworzymy sesji
                 .and()
                 .authenticationProvider(authenticationProvider)
+                //dodajemy nasz filtr
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
 

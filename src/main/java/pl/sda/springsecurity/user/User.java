@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+//od tego zaczynamy
 @Entity
 @Table(name="users")
 @NoArgsConstructor
@@ -28,7 +29,7 @@ public class User implements UserDetails {
     private String password;
 
     private String email;
-
+//potem tworzymy role
     @Enumerated(EnumType.STRING)
     private RoleType role = RoleType.ADMIN;
 
